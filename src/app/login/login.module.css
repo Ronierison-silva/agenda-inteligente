@@ -1,0 +1,45 @@
+.loginSocial {
+  border-top: 0.01rem solid #00000047;
+  width: 100%;
+  margin: 1.2rem 0 1rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginSocial p {
+  font-size: 0.9rem;
+  margin-right: 0.3rem;
+}
+
+.recoverPassword {
+  text-align: right;
+  font-size: 0.7rem;
+  color: #5959d1;
+  margin-top: 0.2rem;
+}
+
+.btnSubmit {
+  margin-top: 0.5rem;
+}
+
+.buttonSocial {
+  width: 100%;
+  margin: 0.2rem 0!important;
+}
+
+.buttonSocial svg {
+  position:absolute;
+  left: 0.3rem;
+}
+
+.redirectCadastro {
+  margin: 1rem auto;
+  text-decoration: underline;
+}
+
+.title {
+  color: #434843;
+  text-align: center;
+  line-height: 2;
+}
