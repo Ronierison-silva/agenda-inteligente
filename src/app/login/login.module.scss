@@ -6,10 +6,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.loginSocial p {
-  font-size: 0.9rem;
-  margin-right: 0.3rem;
+  p {
+    font-size: 0.9rem;
+    margin-right: 0.3rem;
+  }
 }
 
 .recoverPassword {
@@ -17,6 +17,8 @@
   font-size: 0.7rem;
   color: #5959d1;
   margin-top: 0.2rem;
+  display: block;
+  font-weight: 500;
 }
 
 .btnSubmit {
@@ -25,21 +27,29 @@
 
 .buttonSocial {
   width: 100%;
-  margin: 0.2rem 0!important;
+  svg {
+    position:absolute;
+    left: 0.3rem;
+  }
 }
 
-.buttonSocial svg {
-  position:absolute;
-  left: 0.3rem;
-}
-
-.redirectCadastro {
-  margin: 1rem auto;
-  text-decoration: underline;
+.button:disabled svg {
+  opacity: 0.2;
 }
 
 .title {
   color: #434843;
   text-align: center;
   line-height: 2;
+}
+
+.formLogin {
+  margin: 1rem 0 1rem;
+}
+
+.redirectCadastro {
+  text-align: center;
+  text-decoration: underline;
+  display: block;
+  margin: 1rem 0;
 }

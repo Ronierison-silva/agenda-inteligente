@@ -1,8 +1,6 @@
-export default interface RegisterModel {
-  companyName: string;
+export default interface RegisterClientModel {
+  name: string;
   email: string;
-  areaOfActivity: string;
-  cel:number | null;
+  cel: number | null;
   password: string;
-  confirmPassword: string;
 }
