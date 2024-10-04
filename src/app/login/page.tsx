@@ -5,8 +5,8 @@ import '../globals.scss'
 import * as yup from 'yup';
 import { useFormik } from "formik";
 import ClientModel from "@/models/client.model";
-import {auth, provider} from "@/services/firebase";
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {auth, provider} from "@/lib/firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import { TextStatusCode } from "@/utils/textStatusCode";

@@ -1,6 +1,6 @@
 'use client';
 import RegisterClientModel from '@/models/register.model';
-import { auth } from '@/services/firebase';
+import { auth } from '@/lib/firebase';
 import { HOME_ROUTES } from '@/utils/routes';
 import { Button, Container, Grid2, TextField } from '@mui/material'
 import { createUserWithEmailAndPassword } from 'firebase/auth';

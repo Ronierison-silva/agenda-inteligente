@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ThemeRegistry from "@/components/themeRegistry";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
   title: "Agenda",
@@ -14,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <ThemeRegistry>
-        <body>
-          {children}
-        </body>
+        <AuthProvider>
+          <body>
+            {children}
+          </body>
+        </AuthProvider>
       </ThemeRegistry>
     </html>
   );
