@@ -5,8 +5,6 @@ import '../globals.scss'
 import * as yup from 'yup';
 import { useFormik } from "formik";
 import ClientModel from "@/models/client.model";
-import {auth, provider} from "@/lib/firebase";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import { TextStatusCode } from "@/utils/textStatusCode";
@@ -16,6 +14,8 @@ import IconGoggle from "@/components/dumb/icon-social/icon-google/icon";
 import IconFacebook from "@/components/dumb/icon-social/icon-facebook/icon";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Link from "next/link";
+import signIn from "@/lib/firebase/auth/sigIn";
+import signInSocialGoogle from "@/lib/firebase/auth/sigInSocial";
 
 const validation = yup.object({
   email: yup
@@ -48,29 +48,19 @@ export default function Login() {
   const formik = useFormik({
     initialValues: initial,
     validationSchema: validation,
-    onSubmit: (values)=> {
-      signInWithEmailAndPassword(auth,values.email,values.password).then(()=> {
+    onSubmit: async (values) => {
+      const { error } = await signIn(values.email, values.password);
+      if(error) {
+        setOpen(true);
+      } else {
         router.push(HOME_ROUTES);
-      }).catch(e=> {
-        if(e.message){
-          setOpen(true);
-        };
-      });
+      }
     }
   });
 
-  function loginSocial() {
-    signInWithPopup(auth, provider)
-    .then(() => {
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // console.log(result.user);
-      // console.log('credential', credential);
-      router.push(HOME_ROUTES);
-    }).catch((e) => {
-      if(e.message){
-        setOpen(true);
-      };
-    });
+  async function loginSocial() {
+    const { error } = await signInSocialGoogle();
+    if(error) {setOpen(true)} else {router.push(HOME_ROUTES);}
   }
 
   function handleForm() {

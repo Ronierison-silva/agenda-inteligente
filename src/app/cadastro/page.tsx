@@ -1,25 +1,20 @@
 'use client';
+import signUp from '@/lib/firebase/auth/signUp';
 import RegisterClientModel from '@/models/register.model';
-import { auth } from '@/lib/firebase';
-import { HOME_ROUTES } from '@/utils/routes';
-import { Button, Container, Grid2, TextField } from '@mui/material'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { LOGIN_ROUTES } from '@/utils/routes';
+import { TextStatusCode } from '@/utils/textStatusCode';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Alert, Button, Collapse, Container, Grid2, IconButton, TextField } from '@mui/material';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import * as yup from 'yup';
 
 const validation = yup.object({
-  name: yup
-  .string()
-  .required('Digite seu nome'),
   email: yup
   .string()
   .email('Seu e-mail está invalido')
   .required('Insira seu e-mail'),
-  cel: yup
-  .number()
-  .required('Informe o numero do celular'),
   password: yup
   .string()
   .min(8, 'Sua senha deve ter no minimo 8 caracteres')
@@ -27,49 +22,34 @@ const validation = yup.object({
 });
 
 const initial: RegisterClientModel = {
-  name: '',
   email: '',
-  cel: null,
   password: ''
 }
 
 export default function Cadastro() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [open, setOpen] = React.useState(false);
   
   const formik = useFormik({
     initialValues: initial,
     validationSchema: validation,
-    onSubmit: (values)=> {
-      createUserWithEmailAndPassword(auth,values.email,values.password).then(()=> {
-        router.push(HOME_ROUTES);
-      }).catch(e=> {
-        if(e.message){
-          setOpen(true);
-        };
-      });
+    onSubmit: async (values) => {
+      const { error } = await signUp(values.email, values.password);
+      if(error) {
+        setOpen(true);
+      } else {
+        router.push(LOGIN_ROUTES);
+      }
     }
-  })
+  });
+
   return (
     <Container>
       <h1>Tela de cadastro</h1>
       <Grid2 container size={{ xs: 12, sm: 12, md: 12 }}>
         <form onSubmit={formik.handleSubmit}>
-        <TextField 
-            id="name" 
-            type="text"
-            name="name"
-            label="Nome" 
-            variant="outlined" 
-            margin="dense" 
-            size="small" 
-            fullWidth
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
           <TextField 
             id="email" 
             type="text"
@@ -86,23 +66,8 @@ export default function Cadastro() {
             helperText={formik.touched.email && formik.errors.email}
           />
           <TextField 
-            id="cel" 
-            type="tel"
-            name="cel"
-            label="Celular" 
-            variant="outlined" 
-            margin="dense" 
-            size="small" 
-            fullWidth
-            value={formik.values.cel}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.cel && Boolean(formik.errors.cel)}
-            helperText={formik.touched.cel && formik.errors.cel}
-          />
-          <TextField 
             id="password" 
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             label="Senha" 
             variant="outlined" 
@@ -114,9 +79,31 @@ export default function Cadastro() {
             onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                ),
+              },
+            }}
           />
-          <Button type="submit" variant="contained">Entrar</Button>
+          <Button type="submit" variant="contained" disabled={!formik.isValid}>Entrar</Button>
         </form>
+        <Collapse in={open}>
+          <Alert
+            onClose={() => {setOpen(false)}}
+            severity="error"
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            {TextStatusCode.login.status400}
+          </Alert>
+        </Collapse>
       </Grid2>
     </Container>
   )
