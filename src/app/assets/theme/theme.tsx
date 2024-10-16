@@ -25,6 +25,10 @@ export const MuiCustomTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: roboto.style.fontFamily
+    fontFamily: roboto.style.fontFamily,
+    h1: {
+      fontSize:'2rem',
+      lineHeight: 2
+    }
   }
 });

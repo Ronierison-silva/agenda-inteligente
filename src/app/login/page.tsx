@@ -16,6 +16,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Link from "next/link";
 import signIn from "@/lib/firebase/auth/sigIn";
 import signInSocialGoogle from "@/lib/firebase/auth/sigInSocial";
+import { Colors } from "../assets/theme/colors";
 
 const validation = yup.object({
   email: yup
@@ -70,11 +71,11 @@ export default function Login() {
   return (
     <Container>
       <Grid2 container size={{ xs: 12, sm: 8, md: 6 }} margin={"5% auto 0"}>
-        <Box sx={{ p: 6, border: '1px solid #d6d6d6', width:'100%' }}>
+        <Box sx={{ p: 6, border: '1px solid'+ Colors.gray10, width:'100%' }}>
           <Stack spacing={1}>
             <h1 className={styles.title}>Login</h1>
             <ButtonSocial 
-              color="secondary"
+              color="primary"
               className={styles.buttonSocial} 
               variant="outlined" 
               size="large" 
@@ -87,7 +88,7 @@ export default function Login() {
             </ButtonSocial>
 
             <ButtonSocial 
-              color="secondary"
+              color="primary"
               className={styles.buttonSocial} 
               variant="outlined" 
               aria-label="Login Facebook" 
@@ -99,7 +100,7 @@ export default function Login() {
             </ButtonSocial>
 
             <ButtonSocial 
-              color="secondary"
+              color="primary"
               className={styles.buttonSocial} 
               variant="outlined" 
               aria-label="Login por e-mail e senha" 

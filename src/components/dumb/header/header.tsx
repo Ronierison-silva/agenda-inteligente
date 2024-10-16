@@ -7,13 +7,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import React from 'react';
 import { Colors } from "@/app/assets/theme/colors";
-import { HOME_ROUTES } from "@/utils/routes";
+import { HOME_ROUTES, LOGIN_ROUTES } from "@/utils/routes";
+import { useRouter } from "next/navigation";
 
-const pages = ['Home', 'Agendamento', 'Contato'];
-const settings = ['Meus dados', 'Meus agendamentos', 'Notificações', 'Sair'];
+const pages = ['home', 'agendamento', 'contato'];
+const settings = ['meus dados', 'meus agendamentos', 'notificações'];
 
 export default function Header() {
-  //const {userAuth} = useAuthContext();
+  const router = useRouter();
+  const {userAuth, logout} = useAuthContext();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -22,11 +24,16 @@ export default function Header() {
   };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+    userAuth ? setAnchorElUser(event.currentTarget) : router.push(LOGIN_ROUTES);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleLogout = () => {
+    setAnchorElNav(null);
+    logout();
   };
 
   const handleCloseUserMenu = () => {
@@ -86,7 +93,18 @@ export default function Header() {
               >
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                    <Typography 
+                      sx={{ 
+                        textAlign: 'center',
+                        textDecoration: 'none',
+                        textTransform: 'capitalize',
+                        color: Colors.primary 
+                      }} 
+                      noWrap
+                      component="a"
+                      href={page === 'home' ? '/' : '/' + page}>
+                        {page}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -124,12 +142,15 @@ export default function Header() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar 
+                    alt={userAuth ? userAuth.displayName : ''} 
+                    src={userAuth ? userAuth.photoURL : 'L'} 
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: '45px' }}
-                id="menu-appbar"
+                id="menu-user"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
@@ -145,9 +166,28 @@ export default function Header() {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                    <Typography 
+                      sx={{ 
+                      textAlign: 'center',
+                      textDecoration: 'none',
+                      textTransform: 'capitalize',
+                      color: Colors.primary 
+                      }}
+                      component="a"
+                      href={'/' + setting.replace(/[- ]/g, "-")}
+                    >{setting}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem key='sair' onClick={handleLogout}>
+                  <Typography 
+                    sx={{ 
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    textTransform: 'capitalize',
+                    color: Colors.primary 
+                    }}
+                  > Sair</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>

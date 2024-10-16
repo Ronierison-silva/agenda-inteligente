@@ -3,3 +3,4 @@ export const CADASTRO_ROUTES = '/cadastro';
 export const RECOVERY_ROUTES = '/recuperar-senha';
 
 export const HOME_ROUTES = '/';
+export const AGENDAMENTO_ROUTER = '/agendamento'
