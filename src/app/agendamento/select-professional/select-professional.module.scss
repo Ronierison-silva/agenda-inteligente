@@ -1,0 +1,41 @@
+.bgSecundary {
+ background-color: #fdd900;
+ padding: 4rem 0;
+ margin-top: 3rem;
+}
+.cardProfessionalGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 195.2px);
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+  justify-content: center;
+}
+.cardProfessional {
+  position: relative;
+  width: 195.2px;
+  height: 256.4px;
+  &__info {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(51.91%, rgba(0, 0, 0, 0)), color-stop(75.88%, rgba(0, 0, 0, 0.3)));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 51.91%, rgba(0, 0, 0, 0.3) 75.88%);
+    border-radius: 2rem;
+    position: absolute;
+    bottom: 0.4rem;
+    left: 2.5%;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    width: 95%;
+    z-index: 2;
+    ul {
+      margin: 0;
+    }
+  }
+  &__title {
+
+  }
+  &__tags {
+
+  }
+  &__tag {
+
+  }
+}
